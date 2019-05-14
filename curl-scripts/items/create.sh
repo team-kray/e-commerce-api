@@ -1,15 +1,15 @@
 #!/bin/bash
 
 API="http://localhost:4741"
-URL_PATH="/examples"
+URL_PATH="/items"
 
-curl "${API}${URL_PATH}/${ID}" \
+curl "${API}${URL_PATH}" \
   --include \
-  --request PATCH \
+  --request POST \
   --header "Content-Type: application/json" \
---header "Authorization: Bearer ${TOKEN}" \
---data '{
-    "example": {
+  --header "Authorization: Bearer ${TOKEN}" \
+  --data '{
+    "item": {
       "text": "'"${TEXT}"'",
       "title": "'"${TITLE}"'"
     }
