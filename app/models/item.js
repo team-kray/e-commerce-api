@@ -13,9 +13,9 @@ const itemSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  imgUrl:{
+  imgUrl: {
     type: String
-   }
+  }
 }, {
   timestamps: true
 })

@@ -3,12 +3,16 @@ const mongoose = require('mongoose')
 const orderSchema = new mongoose.Schema({
   open: {
     type: Boolean,
-    required: true
+    default: true
   },
-  item: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Item',
-  }],
+  items: [
+    {
+      item: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Item'
+      }
+    }
+  ],
   owner: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
