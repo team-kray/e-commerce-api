@@ -17,6 +17,14 @@ const errorHandler = require('./lib/error_handler')
 // `db` will be the actual Mongo URI as a string
 const db = require('./config/db')
 
+// load secret keys for signing tokens from .env
+const dotenv = require('dotenv')
+dotenv.config()
+
+const publishable = process.env.PUBLISHABLE_KEY
+const secret = process.env.SECRET_KEY
+const stripe = require('stripe')(secret)
+
 // require configured passport authentication middleware
 const auth = require('./lib/auth')
 
@@ -27,7 +35,13 @@ mongoose.connect(db, {
 })
 
 // instantiate express application object
+
 const app = express()
+// configure Express to use Pug as the view engine and add the body-parser
+// module, which makes it possible for your POST route to receive parameters
+// from Checkout.
+app.set('view engine', 'pug')
+app.use(require('body-parser').urlencoded({extended: false}))
 
 // set CORS headers on response from this API using the `cors` NPM package
 // `CLIENT_ORIGIN` is an environment variable that will be set on Heroku
@@ -64,6 +78,42 @@ app.use(exampleRoutes)
 app.use(userRoutes)
 app.use(orderRoutes)
 app.use(itemRoutes)
+
+// custom stripe routes
+
+// The index route renders the Checkout form and displays it to the user.
+// Pass the publishable key into the render function so that the template can
+// embed it in the Checkout form markup.
+
+app.get('/', (req, res) =>
+  res.render('index.pug', {publishable}))
+
+// The charge route retrieves the email address and card token ID from the POST
+// request body. It uses those parameters to create a Stripe customer. Next, it
+// invokes the stripe.charges.create method, providing the Customer object as an
+// option.
+
+app.post('/charge', (req, res) => {
+  let amount = req.body.charge.amount
+
+  stripe.customers.create({
+    email: req.body.stripeEmail,
+    source: req.body.stripeToken
+  })
+    .then(customer =>
+      stripe.charges.create({
+        amount,
+        description: 'Sample Charge',
+        currency: 'usd',
+        customer: customer.id
+      }))
+    .then(charge => res.render('charge.pug'))
+  //  .then(charge => res.send(charge))
+    .catch(err => {
+      console.log('Error:', err)
+      res.status(500).send({error: 'Purchase Failed'})
+    })
+})
 
 // register error handling middleware
 // note that this comes after the route middlewares, because it needs to be
