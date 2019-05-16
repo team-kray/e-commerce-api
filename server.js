@@ -81,7 +81,7 @@ app.use(errorHandler)
 //   res.send({keyPublishable}))
 
 app.post('/charge', (req, res) => {
-  let amount = 500
+  let amount = req.body.amount
 
   stripe.customers.create({
     email: req.body.stripeEmail,
