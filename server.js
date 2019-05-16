@@ -1,15 +1,20 @@
+require('dotenv').config()
+
 // require necessary NPM packages
 const express = require('express')
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
 const cors = require('cors')
 
+const keyPublishable = process.env.PUBLISHABLE_KEY
+const keySecret = process.env.SECRET_KEY
+const stripe = require('stripe')(keySecret)
+
 // require route files
 const exampleRoutes = require('./app/routes/example_routes')
 const userRoutes = require('./app/routes/user_routes')
 const orderRoutes = require('./app/routes/order_routes')
 const itemRoutes = require('./app/routes/item_routes')
-const cartRoutes = require('./app/routes/cart_routes')
 
 // require error handling middleware
 const errorHandler = require('./lib/error_handler')
@@ -65,12 +70,36 @@ app.use(exampleRoutes)
 app.use(userRoutes)
 app.use(orderRoutes)
 app.use(itemRoutes)
-app.use(cartRoutes)
 
 // register error handling middleware
 // note that this comes after the route middlewares, because it needs to be
 // passed any error messages from them
 app.use(errorHandler)
+
+// STRIPE ROUTES
+// app.get('/', (req, res) =>
+//   res.send({keyPublishable}))
+
+app.post('/charge', (req, res) => {
+  let amount = req.body.amount
+  stripe.customers.create({
+    email: req.body.token.email,
+    source: req.body.token.id
+  })
+    .then(customer =>
+      stripe.charges.create({
+        amount,
+        description: 'Sample Charge',
+        currency: 'usd',
+        customer: customer.id
+      }))
+    .then(charge => console.log('================charge:', charge))
+    .then(charge => res.send(charge))
+    .catch(err => {
+      console.log('Error on stripe post:', err)
+      res.status(500).send({error: 'Purchase Failed'})
+    })
+})
 
 // run API on designated port (4741 in this case)
 app.listen(port, () => {

@@ -12,9 +12,9 @@ const router = express.Router()
 
 // INDEX
 // GET /orders
-// need to use requireOwnership here?
+// need to use requireToken here
 router.get('/orders', (req, res, next) => {
-  Order.find()
+  Order.find({open: false})
     .populate('owner')
     .populate('item')
     .then(orders => {
@@ -52,8 +52,7 @@ router.patch('/orders/:id', requireToken, removeBlanks, (req, res, next) => {
     .then(handle404)
     .then(order => {
       requireOwnership(req, order)
-      order.items.push(req.body.order.items)
-      return order.save(req.body.order)
+      return order.update(req.body.order)
     })
     .then(() => res.sendStatus(204))
     .catch(next)
