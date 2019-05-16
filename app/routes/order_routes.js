@@ -14,7 +14,7 @@ const router = express.Router()
 // GET /orders
 // need to use requireToken here
 router.get('/orders', (req, res, next) => {
-  Order.find()
+  Order.find({open: false})
     .populate('owner')
     .populate('item')
     .then(orders => {

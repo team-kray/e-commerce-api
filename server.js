@@ -77,8 +77,9 @@ app.use(itemRoutes)
 app.use(errorHandler)
 
 // STRIPE ROUTES
-app.get('/', (req, res) =>
-  res.send({keyPublishable}))
+
+// app.get('/', (req, res) =>
+//   res.send({keyPublishable}))
 
 app.post('/charge', (req, res) => {
   let amount = req.body.amount
@@ -94,8 +95,8 @@ app.post('/charge', (req, res) => {
         currency: 'usd',
         customer: customer.id
       }))
+    .then(charge => console.log('================charge:', charge))
     .then(charge => res.send(charge))
-    .then(charge => console.log('charge:', charge))
     .catch(err => {
       console.log('Error on stripe post:', err)
       res.status(500).send({error: 'Purchase Failed'})
