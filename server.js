@@ -7,7 +7,8 @@ const mongoose = require('mongoose')
 const cors = require('cors')
 
 const keyPublishable = process.env.PUBLISHABLE_KEY
-const keySecret = process.env.SECRET_KEY
+// const keySecret = process.env.SECRET_KEY
+const keySecret = 'sk_test_x3vEj2er7p4mWshdXdiIJPHP002osq0HjD'
 const stripe = require('stripe')(keySecret)
 
 // require route files
