@@ -77,15 +77,15 @@ app.use(itemRoutes)
 app.use(errorHandler)
 
 // STRIPE ROUTES
-// app.get('/', (req, res) =>
-//   res.send({keyPublishable}))
+app.get('/', (req, res) =>
+  res.send({keyPublishable}))
 
 app.post('/charge', (req, res) => {
   let amount = req.body.amount
 
   stripe.customers.create({
-    email: req.body.stripeEmail,
-    source: req.body.stripeToken
+    email: req.body.token.email,
+    source: req.body.token.id
   })
     .then(customer =>
       stripe.charges.create({

@@ -12,7 +12,7 @@ const router = express.Router()
 
 // INDEX
 // GET /orders
-// need to use requireOwnership here?
+// need to use requireToken here
 router.get('/orders', (req, res, next) => {
   Order.find()
     .populate('owner')
