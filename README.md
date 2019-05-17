@@ -8,7 +8,7 @@ Database is deployed at https://hidden-tor-37672.herokuapp.com/
 
 ## Planning
 
-[ERD!](https://i.imgur.com/1JQanwT.png)
+[ERD](https://i.imgur.com/1JQanwT.png)
 
 ### Routes
 
