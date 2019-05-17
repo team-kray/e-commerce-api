@@ -1,4 +1,6 @@
-E-commerce Express API
+# E-commerce Express API
+
+Created by K Strickland, Robbie Bixler, Aiden Flynn & Yurii Yarema.
 
 [Check out front-end repo's README for more information](https://github.com/team-kray/e-commerce-client)
 
@@ -10,17 +12,15 @@ Database is deployed at https://hidden-tor-37672.herokuapp.com/
 
 ### Routes
 
-POST /sign-up users#signup
-POST /sign-in users#signin
-DELETE /sign-out users#sign-out
-PATCH /change-password users#changepw
-
-GET /products products#index
-GET /products/:id products#show (related to stretch goal)
-
-POST /orders orders#create
-GET /orders orders#index
-PATCH /orders/:id orders#update
+- POST /sign-up users#signup
+- POST /sign-in users#signin
+- DELETE /sign-out users#sign-out
+- PATCH /change-password users#changepw
+- GET /products products#index
+- GET /products/:id products#show (related to stretch goal)
+- POST /orders orders#create
+- GET /orders orders#index
+- PATCH /orders/:id orders#update
 
 ## Try it out!
 
