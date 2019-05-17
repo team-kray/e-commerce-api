@@ -1,6 +1,6 @@
 # E-commerce Express API
 
-Created by K Strickland, Robbie Bixler, Aiden Flynn & Yurii Yarema.
+Created by [K Strickland](https://github.com/kstrickland0612), [Robbie Bixler](https://github.com/rrbixler), [Aiden Flynn](https://github.com/awf825) & [Yurii Yarema](https://github.com/yura85).
 
 [Check out front-end repo's README for more information](https://github.com/team-kray/e-commerce-client)
 
