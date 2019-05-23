@@ -15,9 +15,11 @@ const router = express.Router()
 // need to use requireToken here
 router.get('/orders', (req, res, next) => {
   Order.find({open: false})
+  // Order.find()
     .populate('owner')
     .populate('item')
     .then(orders => {
+      // requireOwnership(req, orders)
       return orders.map(order => order.toObject())
     })
     .then(orders => res.status(200).json({ orders: orders }))
@@ -54,6 +56,17 @@ router.patch('/orders/:id', requireToken, removeBlanks, (req, res, next) => {
       requireOwnership(req, order)
       order.items.push(req.body.order.items)
       return order.save(req.body.order)
+    })
+    .then(() => res.sendStatus(204))
+    .catch(next)
+})
+
+router.patch('/orders/close/:id', requireToken, removeBlanks, (req, res, next) => {
+  delete req.body.order.owner
+  Order.findById(req.params.id)
+    .then(handle404)
+    .then(order => {
+      return order.update(req.body.order)
     })
     .then(() => res.sendStatus(204))
     .catch(next)

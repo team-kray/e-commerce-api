@@ -14,7 +14,6 @@ const router = express.Router()
 // GET /items
 router.get('/items', (req, res, next) => {
   Item.find()
-    .populate('owner')
     .then(items => {
       return items.map(item => item.toObject())
     })
