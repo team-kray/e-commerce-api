@@ -30,4 +30,4 @@ Please do not submit real credit card information through the app. Instead, use 
 
 ### [The deployed Heroku database lives here](https://hidden-tor-37672.herokuapp.com/)
 
-### [Check out our front-end repo here](https://github.com/team-kray/e-commerce-api)
+### [Check out our front-end repo here](https://github.com/team-kray/e-commerce-client)
