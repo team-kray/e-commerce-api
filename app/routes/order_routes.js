@@ -85,19 +85,6 @@ router.patch('/orders/close/:id', requireToken, removeBlanks, (req, res, next) =
     .catch(next)
 })
 
-router.patch('/orders/delete/:id', requireToken, removeBlanks, (req, res, next) => {
-  delete req.body.order.owner
-  Order.findById(req.params.id)
-    .then(handle404)
-    .then(order => {
-      requireOwnership(req, order)
-      order.items.push(req.body.order.items)
-      return order.update(req.body.order)
-    })
-    .then(() => res.sendStatus(204))
-    .catch(next)
-})
-
 // DESTROY
 // DELETE /orders/5a7db6c74d55bc51bdf39793
 router.delete('/orders/:id', requireToken, (req, res, next) => {
