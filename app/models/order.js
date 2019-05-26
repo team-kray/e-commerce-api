@@ -19,7 +19,8 @@ const orderSchema = new mongoose.Schema({
     required: true
   }
 }, {
-  timestamps: true
+  timestamps: true,
+  usePushEach: true
 })
 
 module.exports = mongoose.model('Order', orderSchema)
