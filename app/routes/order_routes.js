@@ -78,7 +78,7 @@ router.patch('/orders/delete/:id', requireToken, removeBlanks, (req, res, next) 
     .then(handle404)
     .then(order => {
       requireOwnership(req, order)
-      order.items.push(req.body.order.items)
+      order.items.concat(req.body.order.items)
       return order.update(req.body.order)
     })
     .then(() => res.sendStatus(204))
